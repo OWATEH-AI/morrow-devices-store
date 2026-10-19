@@ -220,6 +220,7 @@ export function SiteHeader() {
   const { cart } = useStore();
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const navDialog = useRef<HTMLDialogElement>(null);
   const itemCount = cart.reduce((total, line) => total + line.quantity, 0);
 
   return (
@@ -233,7 +234,16 @@ export function SiteHeader() {
             className="icon-button menu-trigger"
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen(!menuOpen)}
+            aria-controls="mobile-navigation"
+            aria-expanded={menuOpen}
+            onClick={() => {
+              if (menuOpen) {
+                navDialog.current?.close();
+              } else {
+                navDialog.current?.showModal();
+                setMenuOpen(true);
+              }
+            }}
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -265,7 +275,7 @@ export function SiteHeader() {
           </Link>
         </div>
         <nav
-          className={`category-nav${menuOpen ? " is-open" : ""}`}
+          className="category-nav"
           aria-label="Shop categories"
         >
           <div className="page-wrap category-nav-inner">
@@ -283,6 +293,36 @@ export function SiteHeader() {
             </Link>
           </div>
         </nav>
+        <dialog
+          className="mobile-nav-dialog"
+          id="mobile-navigation"
+          ref={navDialog}
+          aria-labelledby="mobile-navigation-title"
+          onClose={() => setMenuOpen(false)}
+          onCancel={() => navDialog.current?.close()}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) navDialog.current?.close();
+          }}
+        >
+          <nav className="mobile-nav-panel" aria-label="Mobile navigation">
+            <h2 id="mobile-navigation-title">Menu</h2>
+            <Link href="/" onClick={() => navDialog.current?.close()}>
+              Home
+            </Link>
+            {deviceTypes.map((category) => (
+              <Link
+                href={category.slug}
+                key={category.id}
+                onClick={() => navDialog.current?.close()}
+              >
+                {category.label}
+              </Link>
+            ))}
+            <Link href="/about" onClick={() => navDialog.current?.close()}>
+              Our approach
+            </Link>
+          </nav>
+        </dialog>
       </header>
     </>
   );
