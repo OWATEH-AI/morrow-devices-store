@@ -73,9 +73,10 @@ This application is configured for **Cloudflare Workers**, not Cloudflare Pages:
 1. Create a Cloudflare API token with the permissions needed to deploy Workers, and note the Cloudflare account ID.
 2. Push this project to the root of a GitHub repository using the `main` branch.
 3. In that repository, open **Settings → Secrets and variables → Actions** and add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repository secrets. Never commit these values or paste them into chat.
-4. Push to `main` or run **Actions → Verify and deploy storefront → Run workflow**. The workflow type-checks and builds before deployment. Cloudflare reports the public `workers.dev` URL after a successful deploy; ensure the `workers.dev` subdomain is enabled for the account.
-5. Without Sanity project settings, the deployment uses the clearly labelled local demo catalogue. To show a real Sanity catalogue, add `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` as repository variables. Keep `SANITY_API_READ_TOKEN` private and only set it as a GitHub Actions secret if the dataset is private.
-6. Replace demo content, configure the production domain, and verify images, routes, and errors before sharing with clients.
+4. Set Cloudflare's Git-connected build **deploy command** to `npm run deploy` (not `npx wrangler deploy`): this project builds Cloudflare Build Output for the `cf` CLI, and Wrangler cannot deploy that output. The repository script runs `cf deploy --prebuilt`.
+5. Alternatively, push to `main` or run **Actions → Verify and deploy storefront → Run workflow**. GitHub Actions type-checks, builds, then deploys the prebuilt output with the same `cf` command. Cloudflare reports the public `workers.dev` URL after a successful deploy; ensure the `workers.dev` subdomain is enabled for the account.
+6. Without Sanity project settings, the deployment uses the clearly labelled local demo catalogue. To show a real Sanity catalogue, add `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` as repository variables. Keep `SANITY_API_READ_TOKEN` private and only set it as a GitHub Actions secret if the dataset is private.
+7. Replace demo content, configure the production domain, and verify images, routes, and errors before sharing with clients.
 
 Vercel is not configured by this repository's current Cloudflare-specific Vite/Worker setup. Choose a hosting target before deployment; do not configure the Cloudflare Worker workflow as a Vercel deployment.
 

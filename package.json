@@ -36,7 +36,7 @@
     "typecheck": "tsc --noEmit",
     "build": "vite build",
     "start": "vite preview",
-    "deploy": "vinext-cloudflare deploy",
+    "deploy": "cf deploy --prebuilt",
     "studio:dev": "sanity dev --host 0.0.0.0",
     "studio:build": "sanity build ./studio-dist",
     "studio:deploy": "sanity deploy"
