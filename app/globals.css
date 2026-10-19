@@ -149,7 +149,15 @@ img { display: block; max-width: 100%; }
 .footer-note { justify-content: space-between; align-items: end !important; }
 .footer-note span { font-family: var(--font-display); font-size: 17px; font-weight: 600; }
 .footer-note small { color: var(--muted); font-size: 9px; }
-.footer-bottom { display: flex; justify-content: space-between; gap: 15px; padding-block: 13px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; }
+.footer-bottom { display: flex; flex-direction: column; align-items: center; gap: 9px; padding-block: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; text-align: center; }
+.footer-copyright, .footer-attribution { margin: 0; }
+.footer-attribution { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; color: var(--ink); font-size: 10px; font-weight: 700; letter-spacing: .035em; line-height: 1.7; }
+.footer-attribution a { color: var(--sun); text-decoration: underline; text-underline-offset: 3px; }
+.footer-attribution a:hover { color: var(--accent); }
+.whatsapp-fab { position: fixed; z-index: 20; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); display: grid; width: 62px; height: 62px; place-items: center; border-radius: 50%; background: #20c86a; color: #fff; box-shadow: 0 5px 20px rgb(20 160 80 / 32%); transition: transform .18s ease, background .18s ease; }
+.whatsapp-fab:hover { transform: translateY(-3px); background: #18b95e; }
+.whatsapp-fab svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.whatsapp-fab svg path + path { fill: currentColor; stroke: none; }
 
 .catalog-page { min-height: 620px; padding-block: 46px 85px; }
 .catalog-heading { display: flex; align-items: end; justify-content: space-between; gap: 25px; padding-bottom: 25px; }
@@ -395,7 +403,10 @@ img { display: block; max-width: 100%; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 15px; padding-block: 36px 28px; }
   .footer-brand { grid-column: 1 / -1; }
   .footer-note { grid-column: 1 / -1; flex-direction: column !important; align-items: flex-start !important; gap: 17px !important; }
-  .footer-bottom { font-size: 8px; }
+  .footer-bottom { gap: 8px; padding-block: 16px; font-size: 8px; }
+  .footer-attribution { gap: 4px; font-size: 8px; }
+  .whatsapp-fab { right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); width: 56px; height: 56px; }
+  .whatsapp-fab svg { width: 31px; height: 31px; }
   .catalog-page { padding-block: 30px 60px; }
   .catalog-heading { align-items: flex-start; flex-direction: column; gap: 10px; padding-bottom: 18px; }
   .catalog-heading h1, .cart-heading h1, .checkout-heading h1 { font-size: 33px; }

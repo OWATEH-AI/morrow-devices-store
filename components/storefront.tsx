@@ -41,6 +41,13 @@ const typeIcon = {
   accessory: ShoppingBag,
 };
 
+const samuelWhatsAppUrl = `https://wa.me/263772479492?text=${encodeURIComponent(
+  "Hi Samuel, I saw the Morrow Devices website and would like to request a website like this for my business. Could we discuss my project and a custom-tailored budget?",
+)}`;
+const makerWhatsAppUrl = `https://wa.me/918141198389?text=${encodeURIComponent(
+  "Hi, I found the Morrow Devices website and would like to message the maker about creating a website for my business. I’m interested in a custom-tailored budget, and I understand the consultation is free. Could we discuss my project?",
+)}`;
+
 function MorrowLogo() {
   return (
     <>
@@ -182,37 +189,60 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer">
-      <div className="page-wrap footer-grid">
-        <div className="footer-brand">
-          <Link href="/" className="wordmark">
-            <MorrowLogo />
-          </Link>
-          <p>A considered device shop concept for independent retailers.</p>
+    <>
+      <footer className="site-footer">
+        <div className="page-wrap footer-grid">
+          <div className="footer-brand">
+            <Link href="/" className="wordmark">
+              <MorrowLogo />
+            </Link>
+            <p>A considered device shop concept for independent retailers.</p>
+          </div>
+          <div>
+            <p className="footer-heading">Explore</p>
+            <Link href="/shop">All devices</Link>
+            <Link href="/collections/phones">Phones</Link>
+            <Link href="/collections/tablets">Tablets</Link>
+            <Link href="/collections/laptops">Laptops</Link>
+          </div>
+          <div>
+            <p className="footer-heading">Store</p>
+            <Link href="/about">About Morrow</Link>
+            <Link href="/track-order">Order tracking</Link>
+            <Link href="/admin">Store owner</Link>
+          </div>
+          <div className="footer-note">
+            <span>Built for a better upgrade.</span>
+            <small>Demonstration storefront · {storeConfig.locationLabel}</small>
+          </div>
         </div>
-        <div>
-          <p className="footer-heading">Explore</p>
-          <Link href="/shop">All devices</Link>
-          <Link href="/collections/phones">Phones</Link>
-          <Link href="/collections/tablets">Tablets</Link>
-          <Link href="/collections/laptops">Laptops</Link>
+        <div className="page-wrap footer-bottom">
+          <p className="footer-copyright">© 2026 Morrow Devices · Demo project</p>
+          <p className="footer-attribution">
+            <span>POWERED BY</span>
+            <a href="https://www.owatech-ai.com" target="_blank" rel="noopener noreferrer">
+              OWA TECHNOLOGIES
+            </a>
+            <span aria-hidden="true">-</span>
+            <a href={samuelWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+              [SAMUEL T SAMOYO-(LYKART06)]
+            </a>
+          </p>
         </div>
-        <div>
-          <p className="footer-heading">Store</p>
-          <Link href="/about">About Morrow</Link>
-          <Link href="/track-order">Order tracking</Link>
-          <Link href="/admin">Store owner</Link>
-        </div>
-        <div className="footer-note">
-          <span>Built for a better upgrade.</span>
-          <small>Demonstration storefront · {storeConfig.locationLabel}</small>
-        </div>
-      </div>
-      <div className="page-wrap footer-bottom">
-        <span>© 2026 Morrow Devices · Demo project</span>
-        <span>INR · en-IN</span>
-      </div>
-    </footer>
+      </footer>
+      <a
+        className="whatsapp-fab"
+        href={makerWhatsAppUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Message the website maker on WhatsApp about a custom website budget and free consultation"
+      >
+        <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path d="M16 3.5a12 12 0 0 0-10.3 18.2L4.2 27.8l6.3-1.5A12 12 0 1 0 16 3.5Z" />
+          <path d="M12.3 10.4c-.3-.7-.7-.7-1-.7h-.8c-.3 0-.7.1-1 .5-.4.4-1.3 1.2-1.3 3s1.3 3.4 1.5 3.6c.2.3 2.5 4 6.2 5.4 3.1 1.2 3.7.9 4.4.8.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.6.2-1.8-.1-.2-.4-.3-.8-.5s-2.2-1.1-2.5-1.2c-.3-.1-.6-.2-.8.2-.2.3-1 1.2-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5 0-.7-.1-.2-.8-2-1.1-2.7Z" />
+        </svg>
+      </a>
+    </>
   );
 }
 
