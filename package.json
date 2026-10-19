@@ -1,0 +1,44 @@
+{
+  "name": "mobile-store",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm",
+  "dependencies": {
+    "@sanity/client": "^8.9.0",
+    "@sanity/image-url": "^2.1.1",
+    "lucide-react": "^1.59.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-server-dom-webpack": "latest",
+    "styled-components": "^6.6.0",
+    "vinext": "latest"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "beta",
+    "@sanity/vision": "^6.19.0",
+    "@tailwindcss/postcss": "latest",
+    "@vinext/cloudflare": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-rsc": "latest",
+    "cf": "latest",
+    "sanity": "^6.19.0",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "vinext": "latest",
+    "vite": "8.3.0"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build",
+    "start": "vite preview",
+    "deploy": "vinext-cloudflare deploy",
+    "studio:dev": "sanity dev --host 0.0.0.0",
+    "studio:build": "sanity build ./studio-dist",
+    "studio:deploy": "sanity deploy"
+  }
+}
