@@ -68,27 +68,22 @@ function MorrowLogo() {
 }
 
 function ThemeToggle() {
-  const [theme, setTheme] = useState<"system" | "light" | "dark">("system");
-  const [systemDark, setSystemDark] = useState(false);
-  const isDark = theme === "dark" || (theme === "system" && systemDark);
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const isDark = theme === "dark";
 
   useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const updateSystemTheme = () => setSystemDark(media.matches);
-    updateSystemTheme();
-    media.addEventListener("change", updateSystemTheme);
-
     try {
       const savedTheme = window.localStorage.getItem("morrow-theme");
       if (savedTheme === "light" || savedTheme === "dark") {
         setTheme(savedTheme);
         document.documentElement.dataset.theme = savedTheme;
+      } else {
+        document.documentElement.dataset.theme = "dark";
       }
     } catch (error) {
       console.error("Unable to read the saved theme preference.", error);
+      document.documentElement.dataset.theme = "dark";
     }
-
-    return () => media.removeEventListener("change", updateSystemTheme);
   }, []);
 
   function toggleTheme() {
@@ -112,6 +107,112 @@ function ThemeToggle() {
     >
       {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
     </button>
+  );
+}
+
+function HeroSlideshow({ catalog }: { catalog: Product[] }) {
+  const newArrivals = catalog.filter((product) => product.badge === "New arrival");
+  const featuredProducts = catalog.filter((product) => product.featured).slice(0, 6);
+  const slides = newArrivals.length ? newArrivals : featuredProducts;
+  const [activeSlide, setActiveSlide] = useState<{
+    current: number;
+    previous: number | null;
+  }>({ current: 0, previous: null });
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotionPreference = () => setReducedMotion(motionPreference.matches);
+    updateMotionPreference();
+    motionPreference.addEventListener("change", updateMotionPreference);
+    return () => motionPreference.removeEventListener("change", updateMotionPreference);
+  }, []);
+
+  useEffect(() => {
+    if (paused || reducedMotion || slides.length < 2) return;
+
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        setActiveSlide(({ current }) => ({
+          previous: current,
+          current: (current + 1) % slides.length,
+        }));
+      }
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [paused, reducedMotion, slides.length]);
+
+  if (!slides.length) {
+    const product = catalog.find((item) => item.type === "laptop") ?? products[6];
+    return (
+      <div className="hero-visual">
+        <img src={product.image} alt={product.imageAlt} fetchPriority="high" />
+        <div className="hero-note">
+          <span>01 / THE EVERYDAY EDIT</span>
+          <strong>Technology that fits your day.</strong>
+          <Link href="/collections/laptops" aria-label="Explore laptops">
+            <ArrowUpRight size={17} />
+          </Link>
+        </div>
+        <div className="hero-stamp">
+          A BETTER
+          <br />
+          UPGRADE
+        </div>
+      </div>
+    );
+  }
+
+  const product = slides[activeSlide.current % slides.length];
+  const collectionHref = {
+    phone: "/collections/phones",
+    tablet: "/collections/tablets",
+    laptop: "/collections/laptops",
+    accessory: "/collections/accessories",
+  }[product.type];
+
+  return (
+    <div
+      className="hero-visual"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
+      }}
+    >
+      {activeSlide.previous !== null && (
+        <img
+          className="hero-slide-image hero-slide-previous"
+          src={slides[activeSlide.previous % slides.length].image}
+          alt=""
+          aria-hidden="true"
+        />
+      )}
+      <img
+        key={product.slug}
+        className="hero-slide-image hero-slide-current"
+        src={product.image}
+        alt={product.imageAlt}
+        fetchPriority="high"
+      />
+      <div className="hero-note" aria-live="off">
+        <span>
+          {String(activeSlide.current + 1).padStart(2, "0")} / NEW ARRIVALS
+        </span>
+        <strong>{product.name}</strong>
+        <Link href={collectionHref} aria-label={`Explore ${product.type}s`}>
+          <ArrowUpRight size={17} />
+        </Link>
+      </div>
+      <div className="hero-stamp">
+        A BETTER
+        <br />
+        UPGRADE
+      </div>
+    </div>
   );
 }
 
@@ -875,28 +976,7 @@ export function HomePage({ catalog = products }: { catalog?: Product[] }) {
             <i /> <span>LAPTOP</span>
           </div>
         </div>
-        <div className="hero-visual">
-          <img
-            src={
-              (catalog.find((item) => item.type === "laptop") ?? products[6])
-                .image
-            }
-            alt="Laptop open on a simple desk"
-            fetchPriority="high"
-          />
-          <div className="hero-note">
-            <span>01 / THE EVERYDAY EDIT</span>
-            <strong>Technology that fits your day.</strong>
-            <Link href="/collections/laptops" aria-label="Explore laptops">
-              <ArrowUpRight size={17} />
-            </Link>
-          </div>
-          <div className="hero-stamp">
-            A BETTER
-            <br />
-            UPGRADE
-          </div>
-        </div>
+        <HeroSlideshow catalog={catalog} />
       </section>
       <section className="page-wrap category-section">
         <div className="section-heading">

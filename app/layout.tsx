@@ -13,11 +13,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang={storeConfig.locale} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <meta name="color-scheme" content="light dark" />
+        <meta name="color-scheme" content="dark light" />
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{const theme=localStorage.getItem("morrow-theme");if(theme==="light"||theme==="dark")document.documentElement.dataset.theme=theme}catch(error){console.error("Unable to read the saved theme preference.",error)}',
+              'try{const theme=localStorage.getItem("morrow-theme");document.documentElement.dataset.theme=theme==="light"?"light":"dark"}catch(error){console.error("Unable to read the saved theme preference.",error);document.documentElement.dataset.theme="dark"}',
           }}
         />
       </head>
